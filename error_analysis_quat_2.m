@@ -2,14 +2,18 @@ clear
 clc
 close all
 
-pix4d = load('/home/radam/tests/extensive_testing/pix4dUTM_quat_4.txt'); % DONT TOUCH
+%pix4d1 = load('/home/radam/tests/extensive_testing/pix4dUTM_quat_4.txt'); % DONT TOUCH
+
+pix4d = load('/home/radam/pix4d_long.txt'); % DONT TOUCH
+pix4d = pix4d(1:970,:);
+
 
 % without LC
-poses_sts = load('/home/radam/tests/extensive_testing/no_interaction_even_longer_gps/with_lc/out_pos_STS.txt');
-poses_lts_no_lc = load('/home/radam/tests/extensive_testing/no_interaction_even_longer_gps/without_lc/out_pos_LTS.txt');
+poses_sts = load('/home/radam/tests/new_fw/no_LC_no_GPS/out_pos_STS.txt');
+poses_lts_no_lc = load('/home/radam/tests/new_fw/no_LC_no_GPS_3/out_pos_LTS.txt');
 
 % with LC 
-poses_lts_lc = load('/home/radam/tests/extensive_testing/no_interaction_even_longer_gps/with_lc/out_pos_LTS.txt');
+poses_lts_lc = load('/home/radam/tests/new_fw/LC_no_GPS_3/out_pos_LTS.txt');
 
 % GPS
 gps = load('/home/radam/tests/extensive_testing/no_interaction_even_longer_gps/GPS_STS.txt');
@@ -136,4 +140,34 @@ RMS_pos_gps = sqrt(mean(errors_magnitude_gps).^2)
 RMS_rot_sts = sqrt(mean((axang_err_sts(:,4)*180/pi).^2))
 RMS_rot_lts_no_lc = sqrt(mean((axang_err_lts_no_lc(:,4)*180/pi).^2))
 RMS_rot_lts_lc = sqrt(mean((axang_err_lts_lc(:,4)*180/pi).^2))
+
+close all
+% magnitude plot
+figure(2)
+shift = 200;
+plot(timestamps(shift:end)-timestamps(shift), errors_magnitude_lts_no_lc(shift:end))
+hold on
+plot(timestamps(shift:end)-timestamps(shift), errors_magnitude_lts_lc(shift:end))
+legend('LTS no LC', 'LTS LC')
+title('Position error magnitude [m]')
+grid on
+ylabel('Error magnitude [m]')
+xlabel('Timestamp [s]')
+set(gca,'fontsize',24)
+%%
+%boxplot
+figure(3)
+errors_magnitude_lts_no_lc = errors_magnitude_lts_no_lc(1:2:end);
+errors_magnitude_lts_no_lc = errors_magnitude_lts_no_lc(1:2:end);
+errors_magnitude_lts_lc = errors_magnitude_lts_lc(1:2:end);
+errors_magnitude_lts_lc = errors_magnitude_lts_lc(1:2:end);
+
+x = [errors_magnitude_lts_no_lc;errors_magnitude_lts_lc];
+g = [ones(size(errors_magnitude_lts_no_lc)); 2*ones(size(errors_magnitude_lts_lc))];
+notBoxPlot(x,g,'jitter',0.5)
+title('Position error magnitude')
+ylabel('Position error magnitude [m]','FontSize',40)
+
+set(gca,'fontsize',18)
+
 
