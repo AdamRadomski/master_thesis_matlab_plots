@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-%pix4d1 = load('/home/radam/tests/extensive_testing/pix4dUTM_quat_4.txt'); % DONT TOUCH
+%pix4d = load('/home/radam/tests/extensive_testing/pix4dUTM_quat_4.txt'); % DONT TOUCH
 
 pix4d = load('/home/radam/pix4d_long.txt'); % DONT TOUCH
 pix4d = pix4d(1:970,:);
@@ -141,7 +141,7 @@ RMS_rot_sts = sqrt(mean((axang_err_sts(:,4)*180/pi).^2))
 RMS_rot_lts_no_lc = sqrt(mean((axang_err_lts_no_lc(:,4)*180/pi).^2))
 RMS_rot_lts_lc = sqrt(mean((axang_err_lts_lc(:,4)*180/pi).^2))
 
-close all
+%%
 % magnitude plot
 figure(2)
 shift = 200;
@@ -154,7 +154,7 @@ grid on
 ylabel('Error magnitude [m]')
 xlabel('Timestamp [s]')
 set(gca,'fontsize',24)
-%%
+%
 %boxplot
 figure(3)
 errors_magnitude_lts_no_lc = errors_magnitude_lts_no_lc(1:2:end);
@@ -170,4 +170,95 @@ ylabel('Position error magnitude [m]','FontSize',40)
 
 set(gca,'fontsize',18)
 
+%%
 
+figure(4)
+subplot(8,1,1);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,1))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,1))
+legend('LTS no LC', 'LTS LC')
+title('Error X [m]')
+grid on
+subplot(8,1,2);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,2))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,2))
+legend('LTS no LC', 'LTS LC')
+title('Error Y [m]')
+grid on
+subplot(8,1,3);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,3))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,3))
+legend('LTS no LC', 'LTS LC')
+title('Error Z [m]')
+grid on
+subplot(8,1,4);
+plot(timestamps-timestamps(1), errors_magnitude_lts_no_lc)
+hold on
+plot(timestamps-timestamps(1), errors_magnitude_lts_lc)
+legend('LTS no LC', 'LTS LC')
+title('Error position magnitude [m]')
+grid on
+subplot(8,1,5);
+plot(timestamps-timestamps(1), errors_lts_a_no_lc(:,1))
+hold on
+plot(timestamps-timestamps(1), errors_lts_a_lc(:,1))
+hold on
+legend('LTS no LC', 'LTS LC')
+title('Error Yaw [deg]')
+grid on
+subplot(8,1,6);
+plot(timestamps-timestamps(1), errors_lts_a_no_lc(:,2))
+hold on
+plot(timestamps-timestamps(1), errors_lts_a_lc(:,2))
+legend('LTS no LC', 'LTS LC')
+title('Error Pitch [deg]')
+grid on
+subplot(8,1,7);
+plot(timestamps-timestamps(1), errors_lts_a_no_lc(:,3))
+hold on
+plot(timestamps-timestamps(1), errors_lts_a_lc(:,3))
+legend('LTS no LC', 'LTS LC')
+title('Error Roll [deg]')
+grid on
+subplot(8,1,8);
+plot(timestamps-timestamps(1), axang_err_lts_no_lc(:,4)*180/pi)
+hold on
+plot(timestamps-timestamps(1), axang_err_lts_lc(:,4)*180/pi)
+legend('LTS no LC', 'LTS LC')
+title('Error Angle magnitude [deg]')
+grid on
+
+%%
+
+figure(5)
+subplot(4,1,1);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,1))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,1))
+legend('LTS no LC', 'LTS LC')
+title('Error X [m]')
+grid on
+subplot(4,1,2);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,2))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,2))
+legend('LTS no LC', 'LTS LC')
+title('Error Y [m]')
+grid on
+subplot(4,1,3);
+plot(timestamps-timestamps(1), errors_lts_no_lc(:,3))
+hold on
+plot(timestamps-timestamps(1), errors_lts_lc(:,3))
+legend('LTS no LC', 'LTS LC')
+title('Error Z [m]')
+grid on
+subplot(4,1,4);
+plot(timestamps-timestamps(1), errors_magnitude_lts_no_lc)
+hold on
+plot(timestamps-timestamps(1), errors_magnitude_lts_lc)
+legend('LTS no LC', 'LTS LC')
+title('Error position magnitude [m]')
+grid on
